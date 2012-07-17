@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- <h1>Gist #{{ gist_id }}</h1> -->
+    <section class="content">
+    <h1 id="description">Description!</h1>
+    </section>
+{% endblock %}
+
+{% block js %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+<script src="static/js/marked.js"></script>
+<script src="static/js/gisted.js"></script>
+<script>
+    $(function() {
+        Gisted.gist({{gist_id}});
+    });
+</script>
+{% endblock js %}

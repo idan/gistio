@@ -1,0 +1,8 @@
+// Defaults ------------------------------------------------------------------
+$default-transition-duration: 0.5s;
+
+@mixin copy {
+    font-family: "freight-text-pro", Palatino, Georgia, serif;
+}
+
+$red: #fc263a
