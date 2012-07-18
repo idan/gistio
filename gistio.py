@@ -21,6 +21,7 @@ else:
 
 CACHE_EXPIRATION = 60  # seconds
 
+RENDERABLE = [u'Markdown', u'Text']
 
 @app.route('/')
 def homepage():
@@ -50,8 +51,8 @@ def fetch_and_render(id):
         return None
     decoded = r.json.copy()
     for f in decoded['files'].values():
-        if f['language'] == u'Markdown':
             f['rendered'] = markdown(f['content'])
+        if f['language'] in RENDERABLE:
     encoded = json.dumps(decoded)
     cache.setex(id, CACHE_EXPIRATION, encoded)
     return encoded

@@ -13,7 +13,7 @@ var Gisted = (function($, undefined) {
                 var empty = true;
                 for (var i=0; i<keys.length; i++) {
                     var file = files[keys[i]];
-                    if (file['language'] == 'Markdown') {
+                    if (file['rendered']) {
                         empty = false;
                         var filediv = $('<article>')
                             .attr('class', 'file')
