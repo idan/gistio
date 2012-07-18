@@ -120,6 +120,9 @@ article {
         padding-left: 1em;
         border-left: 1px solid #aaa;
     }
+    img, object, video, audio, figure, iframe {
+        max-width: 100%;
+    }
 }
 
 
