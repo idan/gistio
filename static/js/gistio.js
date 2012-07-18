@@ -19,7 +19,7 @@ var Gisted = (function($, undefined) {
                             .attr('class', 'file')
                             .attr('data-filename', file['filename']);
                         filediv.html("<h1>" + file['filename'] + "</h1>" + file['rendered']);
-                        $('.content').append(filediv);
+                        $('#gistbody').append(filediv);
                     }
                 }
                 if (empty) {
@@ -33,12 +33,15 @@ var Gisted = (function($, undefined) {
                     apologize("Unable to Fetch Gist");
                 }
             })
-            .always(function() { $("#description").removeClass("loading"); });
+            .always(function() {
+                $("#description").removeClass("loading");
+                $(".content>footer").fadeIn();
+            });
     };
     var apologize = function(errorText) {
         $("#description").text(errorText);
         var apology = $('<p>').attr('class', 'apology').text("Quite flummoxed. Terribly sorry.");
-        $('.content').append(apology);
+        $('#gistbody').append(apology);
     };
     return {
         gist: gist

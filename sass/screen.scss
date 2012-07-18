@@ -37,27 +37,13 @@ a {
 }
 
 
-.wrap {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    @media screen and (min-width: 32em) {
-        width: 30em;
-    }
-    @media screen and (min-width: 62.236em) {
-        width: 1000px;
-    }
-    @include clearfix;
-}
-
-
 // narrow
 // no media queries
 .content {
     padding: 0.809em;
     max-width: 30em;
     margin: auto;
-    &>h1 {
+    #gistid {
         font-weight: normal;
         color: #ccc;
         font-size: 0.8em;
@@ -83,6 +69,18 @@ a {
     .apology {
         font-style: italic;
         color: #aaa;
+    }
+    &>footer {
+        margin-top: 4em;
+        margin-bottom: 2em;
+        border-top: 1px solid #eee;
+        display: none;
+        p {
+            font-size: 0.8em;
+            color: #888;
+            font-style: italic;
+        }
+
     }
 }
 
