@@ -18,21 +18,23 @@ if HEROKU:
                         port=redis_url.port,
                         password=redis_url.password)
     PORT = int(os.environ.get('PORT', 5000))
+    STATIC_URL = '//static.gist.io/'
 else:
     cache = StrictRedis()  # local development
     PORT = 5000
+    STATIC_URL = ''
 
 CACHE_EXPIRATION = 60  # seconds
 
 
 @app.route('/')
 def homepage():
-    return render_template('home.html')
+    return render_template('home.html', static_url=STATIC_URL)
 
 
 @app.route('/<int:id>')
 def render_gist(id):
-    return render_template('gist.html', gist_id=id)
+    return render_template('gist.html', gist_id=id, static_url=STATIC_URL)
 
 
 @app.route('/<int:id>/content')

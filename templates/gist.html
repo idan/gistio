@@ -12,8 +12,8 @@
 
 {% block js %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-<script src="static/js/gisted.js"></script>
+<script>window.jQuery || document.write('<script src="{{ STATIC_URL }}static/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+<script src="{{ STATIC_URL }}static/js/gistio.js"></script>
 <script>
     $(function() {
         Gisted.gist({{gist_id}});
