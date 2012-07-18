@@ -6,7 +6,7 @@ from redis import StrictRedis
 from markdown2 import markdown
 import requests
 
-from flask import Flask, render_template, make_response
+from flask import Flask, render_template, make_response, abort
 app = Flask(__name__)
 
 HEROKU = 'HEROKU' in os.environ
@@ -37,7 +37,10 @@ def render_gist(id):
 
 @app.route('/<int:id>/content')
 def gist_contents(id):
-    resp = cache.get(id) or fetch_and_render(id)
+    content = cache.get(id) or fetch_and_render(id)
+    if content is None:
+        abort(404)
+    resp = make_response(cache.get(id) or fetch_and_render(id), 200)
     resp.headers['Content-Type'] = 'application/json'
     resp.headers['X-Expire-TTL-Seconds'] = cache.ttl(id)
     return resp
@@ -46,6 +49,8 @@ def gist_contents(id):
 def fetch_and_render(id):
     """Fetch and render a post from the Github API"""
     r = requests.get('https://api.github.com/gists/{}'.format(id))
+    if r.status_code != 200:
+        return None
     decoded = json.loads(r.content)
     for f in decoded['files'].values():
         if f['language'] == u'Markdown':
