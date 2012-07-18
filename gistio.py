@@ -38,6 +38,7 @@ ALLOWED_ATTRIBUTES = {
     "img": ["src"],
 }
 
+
 @app.route('/')
 def homepage():
     return render_template('home.html', static_url=STATIC_URL)
@@ -75,5 +76,8 @@ def fetch_and_render(id):
 
 
 if __name__ == '__main__':
-    cache.flushall()
-    app.run(host='0.0.0.0', debug=True, port=PORT)
+    if HEROKU:
+        app.run(host='0.0.0.0', port=PORT)
+    else:
+        cache.flushall()
+        app.run(host='0.0.0.0', debug=True, port=PORT)
