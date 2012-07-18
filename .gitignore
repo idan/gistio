@@ -1,2 +1,6 @@
 .sass-cache
+*.pyc
+*.pyo
 *.ipynb
+*.sublime-project
+*.sublime-workspace
