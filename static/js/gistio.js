@@ -1,7 +1,7 @@
 var Gisted = (function($, undefined) {
     var gist = function(gist_id) {
         var gistxhr = $.getJSON('/' + gist_id + '/content')
-            .done(function(data) {
+            .done(function(data, textStatus, xhr) {
                 var description = data['description'];
                 if (description) {
                     $("#description").text(description);
@@ -24,6 +24,12 @@ var Gisted = (function($, undefined) {
                 }
                 if (empty) {
                     apologize("No Content Found");
+                }
+
+                if (xhr.getResponseHeader("X-Cache-Hit") == "True") {
+                    mixpanel.track("Cache Hit");
+                } else {
+                    mixpanel.track("Cache Miss");
                 }
             })
             .fail(function(xhr, status, error) {
