@@ -56,11 +56,16 @@ def render_gist(id):
 
 @app.route('/<int:id>/content')
 def gist_contents(id):
-    content = cache.get(id) or fetch_and_render(id)
+    cache_hit = True
+    content = cache.get(id)
+    if not content:
+        cache_hit = False
+        content = fetch_and_render(id)
     if content is None:
         abort(404)
-    resp = make_response(cache.get(id) or fetch_and_render(id), 200)
+    resp = make_response(content, 200)
     resp.headers['Content-Type'] = 'application/json'
+    resp.headers['X-Cache-Hit'] = cache_hit
     resp.headers['X-Expire-TTL-Seconds'] = cache.ttl(id)
     return resp
 
