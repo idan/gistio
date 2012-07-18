@@ -48,7 +48,7 @@ def fetch_and_render(id):
     r = requests.get('https://api.github.com/gists/{}'.format(id))
     if r.status_code != 200:
         return None
-    decoded = json.loads(r.content)
+    decoded = r.json.copy()
     for f in decoded['files'].values():
         if f['language'] == u'Markdown':
             f['rendered'] = markdown(f['content'])
