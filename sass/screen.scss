@@ -23,11 +23,16 @@ body {
     color: #444;
 }
 
+
+
 a {
     color: $red;
     @include transition;
-    &:hover {
-        color: darken($red, 10%);
+    &:hover, &:visited:hover {
+        color: darken($red, 20%);
+    }
+    &:visited {
+        color: lighten($red, 15%);
     }
 }
 
@@ -52,6 +57,69 @@ a {
     padding: 0.809em;
     max-width: 30em;
     margin: auto;
+    &>h1 {
+        font-weight: normal;
+        color: #ccc;
+        font-size: 0.8em;
+        a {
+            color: #ccc;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    #description {
+        @include titling;
+        font-weight: normal;
+        font-size: 2em;
+        &.loading {
+            -webkit-animation: throb 1s infinite alternate linear;
+            -moz-animation:    throb 1s infinite alternate linear;
+            -ms-animation:     throb 1s infinite alternate linear;
+            -o-animation:      throb 1s infinite alternate linear;
+        }
+    }
+    .apology {
+        font-style: italic;
+        color: #aaa;
+    }
+}
+
+article {
+    &>h1:first-child {
+        display: none;
+    }
+    h1, h2, h3, h4, h5 {
+        font-weight: normal;
+        margin-top: 2em;
+        color: black;
+    }
+
+    h1, h2 {
+        font-size: 1.5em;
+    }
+    h3 {
+        @include titling;
+        font-weight: normal;
+        text-transform: lowercase;
+    }
+    h4 {
+        font-size: 1em;
+        font-style: italic;
+    }
+    h5 {
+        font-style: normal;
+    }
+    ul, ol {
+        list-style-position: outside;
+        padding: 0;
+    }
+    blockquote {
+        margin: 0;
+        padding-left: 1em;
+        border-left: 1px solid #aaa;
+    }
 }
 
 
@@ -67,7 +135,26 @@ a {
     .content {
         padding: 1.618em;
         margin: 0 auto;
-        max-width: 60em;
+        max-width: 45rem;
+        font-size: 1.25em;
     }
+}
+
+
+@-webkit-keyframes throb {
+    0%   { opacity: 0.25; }
+    100% { opacity: 1; }
+}
+@-moz-keyframes throb {
+    0%   { opacity: 0.25; }
+    100% { opacity: 1; }
+}
+@-ms-keyframes throb {
+    0%   { opacity: 0.25; }
+    100% { opacity: 1; }
+}
+@-o-keyframes throb {
+    0%   { opacity: 0.25; }
+    100% { opacity: 1; }
 }
 

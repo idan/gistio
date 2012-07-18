@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 
+{% block title %}gist.io &middot; #{{ gist_id }}{% endblock %}
+
 {% block content %}
-    <!-- <h1>Gist #{{ gist_id }}</h1> -->
+    <!-- <h1>Loading Gist #{{ gist_id }}…</h1> -->
     <section class="content">
-    <h1 id="description">Description!</h1>
+    <h1><a href="https://gist.github.com/{{ gist_id }}">gist #{{ gist_id }}</a></h1>
+    <h2 id="description" class="loading">Loading…</h2>
     </section>
 {% endblock %}
 
 {% block js %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-<script src="static/js/marked.js"></script>
 <script src="static/js/gisted.js"></script>
 <script>
     $(function() {
