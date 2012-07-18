@@ -4,6 +4,7 @@ import json
 from redis import StrictRedis
 from markdown2 import markdown
 import requests
+import bleach
 
 from flask import Flask, render_template, make_response, abort
 app = Flask(__name__)
@@ -22,6 +23,20 @@ else:
 CACHE_EXPIRATION = 60  # seconds
 
 RENDERABLE = [u'Markdown', u'Text']
+
+ALLOWED_TAGS = [
+    "a", "abbr", "acronym", "b", "blockquote", "code", "em", "i", "li", "ol", "strong",
+    "ul", "br", "img", "span", "div", "pre", "p", "dl", "dd", "dt", "tt", "cite", "h1",
+    "h2", "h3", "h4", "h5", "h6", "table", "col", "tr", "td", "th", "tbody", "thead",
+    "colgroup",
+]
+
+ALLOWED_ATTRIBUTES = {
+    "a": ["href", "title"],
+    "acronym": ["title"],
+    "abbr": ["title"],
+    "img": ["src"],
+}
 
 @app.route('/')
 def homepage():
@@ -51,12 +66,14 @@ def fetch_and_render(id):
         return None
     decoded = r.json.copy()
     for f in decoded['files'].values():
-            f['rendered'] = markdown(f['content'])
         if f['language'] in RENDERABLE:
+            f['rendered'] = bleach.clean(markdown(f['content']),
+                tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
     encoded = json.dumps(decoded)
     cache.setex(id, CACHE_EXPIRATION, encoded)
     return encoded
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=PORT)
+    cache.flushall()
+    app.run(host='0.0.0.0', debug=True, port=PORT)
