@@ -19,8 +19,6 @@ def homepage():
 
 @app.route('/<int:id>')
 def render_gist(id):
-    # resp = make_response(render_template('gist.html', gist_id=id), 200)
-    # return resp
     return render_template('gist.html', gist_id=id)
 
 
@@ -29,7 +27,6 @@ def gist_contents(id):
     resp = cache.get(id) or fetch_and_render(id)
     resp.headers['Content-Type'] = 'application/json'
     resp.headers['X-Expire-TTL-Seconds'] = cache.ttl(id)
-    # resp.headers['Last-Modified'] =
     return resp
 
 
