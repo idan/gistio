@@ -1,5 +1,6 @@
-import datetime
+import os
 import json
+import urlparse
 
 from redis import StrictRedis
 from markdown2 import markdown
@@ -8,7 +9,19 @@ import requests
 from flask import Flask, render_template, make_response
 app = Flask(__name__)
 
-cache = StrictRedis()
+HEROKU = 'HEROKU' in os.environ
+
+if HEROKU:
+    urlparse.uses_netloc.append('redis')
+    redis_url = urlparse.urlparse(os.environ['REDISTOGO_URL'])
+    cache = StrictRedis(host=redis_url.hostname,
+                        port=redis_url.port,
+                        password=redis_url.password)
+    PORT = int(os.environ.get('PORT', 5000))
+else:
+    cache = StrictRedis()  # local development
+    PORT = 5000
+
 CACHE_EXPIRATION = 60  # seconds
 
 
@@ -38,9 +51,9 @@ def fetch_and_render(id):
         if f['language'] == u'Markdown':
             f['rendered'] = markdown(f['content'])
     encoded = json.dumps(decoded)
-    cache.setexp(id, CACHE_EXPIRATION, encoded)
+    cache.setex(id, CACHE_EXPIRATION, encoded)
     return encoded
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host='0.0.0.0', port=PORT)
