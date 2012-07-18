@@ -1,7 +1,7 @@
 import os
 import json
 
-from redis import StrictRedis
+import redis
 from markdown2 import markdown
 import requests
 import bleach
@@ -12,11 +12,11 @@ app = Flask(__name__)
 HEROKU = 'HEROKU' in os.environ
 
 if HEROKU:
-    cache = StrictRedis.from_url(os.environ['REDISTOGO_URL'])
+    cache = redis.from_url(os.environ['REDISTOGO_URL'])
     PORT = int(os.environ.get('PORT', 5000))
     STATIC_URL = '//static.gist.io/'
 else:
-    cache = StrictRedis()  # local development
+    cache = redis.StrictRedis()  # local development
     PORT = 5000
     STATIC_URL = ''
 
