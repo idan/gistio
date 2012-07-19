@@ -46,6 +46,7 @@ var Gisted = (function ($, undefined) {
                 }
                 var filediv = $('<article>').attr('class', 'file').attr('data-filename', file['filename']);
                 filediv.html("<h1>" + file['filename'] + "</h1>" + html);
+		html = html_sanitize(html);
                 $('#gistbody').append(filediv);
                 if (highlight) hljs.initHighlighting();
             }
