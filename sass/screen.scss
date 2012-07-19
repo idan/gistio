@@ -82,6 +82,10 @@ a {
             font-size: 0.8em;
             color: #888;
             font-style: italic;
+            .poweredby {
+                display: inline-block;
+                margin-right: 1em;
+            }
         }
 
     }
