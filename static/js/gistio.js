@@ -54,11 +54,6 @@ var Gisted = (function ($, undefined) {
                 apologize("No Content Found");
             }
 
-            if (xhr.getResponseHeader("X-Cache-Hit") == "True") {
-                mixpanel.track("Cache Hit");
-            } else {
-                mixpanel.track("Cache Miss");
-            }
         }
     var apologize = function (errorText) {
             $("#description").text(errorText);
