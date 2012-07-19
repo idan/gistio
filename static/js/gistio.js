@@ -1,6 +1,6 @@
 var Gisted = (function($, undefined) {
-    var gist = function(gist_id) {
-        var gistxhr = $.getJSON('/' + gist_id + '/content')
+    function gist(gist_id) {
+        $.getJSON('/' + gist_id + '/content')
             .done(function(data, textStatus, xhr) {
                 var description = data['description'];
                 if (description) {
@@ -44,12 +44,45 @@ var Gisted = (function($, undefined) {
                 $(".content>footer").fadeIn();
             });
     };
+    function user(username) {
+        $.getJSON('/' + username + '/gists')
+            .done(function(data, textStatus, xhr) {
+                $("#description").text('');
+
+                var empty = true;
+                var title;
+                for (var i=0; i<data.length; i++) {
+                    if(!data[i]['renderable'] || !data[i]['description']) continue;
+
+                    empty = false;
+                    title = $('<h2><a href="/' + data[i]['id'] + '"></a></h2>');
+                    $('a', title).text(data[i]['description']);
+                    $("#userbody").append(title);
+                }
+
+                if (empty) {
+                    apologize("No Content Found");
+                }
+            })
+            .fail(function(xhr, status, error) {
+                if (xhr.status == 404) {
+                    apologize("No User Found");
+                } else {
+                    apologize("Unable to Fetch User");
+                }
+            })
+            .always(function() {
+                $("#description").removeClass("loading");
+                $(".content>footer").fadeIn();
+            });
+    }
     var apologize = function(errorText) {
         $("#description").text(errorText);
         var apology = $('<p>').attr('class', 'apology').text("Quite flummoxed. Terribly sorry.");
         $('#gistbody').append(apology);
     };
     return {
-        gist: gist
+        gist: gist,
+        user: user
     };
 })(jQuery);

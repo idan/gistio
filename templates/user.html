@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}gist.io &middot; #{{ gist_id }}{% endblock %}
+{% block title %}gist.io &middot; {{ username }}{% endblock %}
 
 {% block content %}
-    <!-- <h1>Loading Gist #{{ gist_id }}…</h1> -->
     <section class="content">
         <header>
-            <h1 id="gistid" class="title"><a href="https://gist.github.com/{{ gist_id }}">gist #{{ gist_id }}</a></h1>
+            <h1 id="username" class="title"><a href="https://gist.github.com/{{ username }}">{{ username }}</a></h1>
             <h2 id="description" class="loading">Loading…</h2>
         </header>
-        <div id="gistbody"></div>
+        <div id="userbody"></div>
         <footer>
             <p><a href="/">gist.io</a> &middot; writing for hackers &middot; zero setup &middot; publish in seconds</p>
         </footer>
@@ -22,7 +21,7 @@
 <script src="{{ STATIC_URL }}static/js/gistio.js"></script>
 <script>
     $(function() {
-        Gisted.gist({{gist_id}});
+        Gisted.user("{{username}}");
     });
 </script>
 {% endblock js %}
