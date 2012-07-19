@@ -4,6 +4,7 @@ import urlparse
 
 from redis import StrictRedis
 from markdown2 import markdown
+from github_md import gfm
 import requests
 import bleach
 
@@ -78,7 +79,7 @@ def fetch_and_render(id):
     decoded = r.json.copy()
     for f in decoded['files'].values():
         if f['language'] in RENDERABLE:
-            f['rendered'] = bleach.clean(markdown(f['content']),
+            f['rendered'] = bleach.clean(markdown(gfm(f['content'])),
                 tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
     encoded = json.dumps(decoded)
     cache.setex(id, CACHE_EXPIRATION, encoded)
