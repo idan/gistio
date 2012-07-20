@@ -1,4 +1,20 @@
 var Gisted = (function($, undefined) {
+    var comments = function(gist_id) {
+      var gistxhr = $.getJSON('/' + gist_id + '/comments')
+          .done(function(data, textStatus, xhr) {
+              for (var i = 0; i < data.length; i++) {
+                  var comment = data[i];
+                  var author_url = '<a class="author_url" href="' + comment.user.url + '">' + comment.user.login + '</a>';
+                  var body = "<p>" + comment.body + "</p>";
+                  var avatar_image = '<img height=60 width=60 src="' + comment.user.avatar_url + '" />';
+                  var comment = '<div class="comment"><br />' + avatar_image + author_url + body + '</div>';
+                  $('#comments').append(comment);
+              }
+          })
+          .fail(function(xhr, status, error) {
+              apologize("Unable to fetch comments");
+          });
+    }
     var gist = function(gist_id) {
         var gistxhr = $.getJSON('/' + gist_id + '/content')
             .done(function(data, textStatus, xhr) {
@@ -50,6 +66,7 @@ var Gisted = (function($, undefined) {
         $('#gistbody').append(apology);
     };
     return {
-        gist: gist
+        gist: gist,
+        comments: comments
     };
 })(jQuery);

@@ -10,6 +10,9 @@
             <h2 id="description" class="loading instapaper-title entry-title">Loading…</h2>
         </header>
         <div id="gistbody" class="instapaper-body entry-content"></div>
+        <hr />
+        <h2>Comments</h2>
+        <div id="comments"></div>
         <footer>
             <p><a href="/">gist.io</a> &middot; writing for hackers &middot; zero setup &middot; publish in seconds</p>
         </footer>
@@ -23,6 +26,7 @@
 <script>
     $(function() {
         Gisted.gist({{gist_id}});
+        Gisted.comments({{gist_id}});
     });
 </script>
 {% endblock js %}

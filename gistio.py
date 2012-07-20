@@ -70,6 +70,19 @@ def gist_contents(id):
     resp.headers['X-Expire-TTL-Seconds'] = cache.ttl(id)
     return resp
 
+@app.route('/<int:id>/comments')
+def gist_comments(id):
+    comments = fetch_comments(id)
+    resp = make_response(comments, 200)
+    resp.headers['Content-Type'] = 'application/json'
+    return resp
+
+def fetch_comments(id):
+    """Fetceh comments for a Gist from the Github API"""
+    r = requests.get('https://api.github.com/gists/{}/comments'.format(id))
+    if r.status_code != 200:
+      return None
+    return json.dumps(r.json)
 
 def fetch_and_render(id):
     """Fetch and render a post from the Github API"""
