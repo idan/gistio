@@ -119,6 +119,10 @@ article {
     ul, ol {
         list-style-position: outside;
         padding: 0;
+
+        li ul, li ol {
+            margin-left: 1.5em;
+        }
     }
     blockquote {
         margin: 0;
