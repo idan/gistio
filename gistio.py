@@ -33,7 +33,7 @@ ALLOWED_TAGS = [
     "a", "abbr", "acronym", "b", "blockquote", "code", "em", "i", "li", "ol", "strong",
     "ul", "br", "img", "span", "div", "pre", "p", "dl", "dd", "dt", "tt", "cite", "h1",
     "h2", "h3", "h4", "h5", "h6", "table", "col", "tr", "td", "th", "tbody", "thead",
-    "colgroup", "hr",
+    "colgroup", "hr", "gist"
 ]
 
 ALLOWED_ATTRIBUTES = {
