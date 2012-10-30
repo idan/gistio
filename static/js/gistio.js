@@ -2,11 +2,24 @@ var Gisted = (function($, undefined) {
     var gist = function(gist_id) {
         var gistxhr = $.getJSON('/' + gist_id + '/content')
             .done(function(data, textStatus, xhr) {
+                console.log(data);
                 var description = data['description'];
                 if (description) {
                     $("#description").text(description);
                 } else {
                     $("#description").text('');
+                }
+                var user = data['user'];
+                if (user) {
+                    $("<a/>", {
+                        id: 'gistuser-url',
+                        href: 'https://github.com/' + user['login'],
+                        target: '_blank'
+                    }).appendTo("#gistuser");
+                    $("<img/>", {
+                        src: user['avatar_url'],
+                        title: user['login']
+                    }).appendTo("#gistuser-url");
                 }
                 var files = data['files'];
                 var keys = Object.keys(files);
