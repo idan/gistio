@@ -5,6 +5,7 @@ var Gisted = (function($, undefined) {
                 var description = data['description'];
                 if (description) {
                     $("#description").text(description);
+                    $("title").html(description + ' &middot; ' + $("title").html());
                 } else {
                     $("#description").text('');
                 }
