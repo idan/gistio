@@ -2,7 +2,6 @@ var Gisted = (function($, undefined) {
     var gist = function(gist_id) {
         var gistxhr = $.getJSON('/' + gist_id + '/content')
             .done(function(data, textStatus, xhr) {
-                console.log(data);
                 var description = data['description'];
                 if (description) {
                     $("#description").text(description);
