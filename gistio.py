@@ -8,6 +8,7 @@ import requests
 import bleach
 
 from flask import Flask, render_template, make_response, abort
+from werkzeug.routing import BaseConverter
 app = Flask(__name__)
 
 HEROKU = 'HEROKU' in os.environ
@@ -26,6 +27,7 @@ else:
     STATIC_URL = ''
 
 CACHE_EXPIRATION = 60  # seconds
+CACHE_CONTROL = "private, max-age=0, must-revalidate"
 
 RENDERABLE = [u'Markdown', u'Text']
 
@@ -43,18 +45,24 @@ ALLOWED_ATTRIBUTES = {
     "img": ["src"],
 }
 
+class HashConverter(BaseConverter):
+  def __init__(self, url_map):
+    super(HashConverter, self).__init__(url_map)
+    self.regex = r'[a-fA-F\d]+'
+
+app.url_map.converters['hash'] = HashConverter
 
 @app.route('/')
 def homepage():
     return render_template('home.html', static_url=STATIC_URL)
 
 
-@app.route('/<int:id>')
+@app.route('/<hash:id>')
 def render_gist(id):
     return render_template('gist.html', gist_id=id, static_url=STATIC_URL)
 
 
-@app.route('/<int:id>/content')
+@app.route('/<hash:id>/content')
 def gist_contents(id):
     cache_hit = True
     content = cache.get(id)
@@ -65,6 +73,7 @@ def gist_contents(id):
         abort(404)
     resp = make_response(content, 200)
     resp.headers['Content-Type'] = 'application/json'
+    resp.headers['Cache-Control'] = CACHE_CONTROL
     resp.headers['X-Cache-Hit'] = cache_hit
     resp.headers['X-Expire-TTL-Seconds'] = cache.ttl(id)
     return resp
