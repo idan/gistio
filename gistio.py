@@ -27,6 +27,7 @@ else:
     STATIC_URL = ''
 
 CACHE_EXPIRATION = 60  # seconds
+CACHE_CONTROL = "private, max-age=0, must-revalidate"
 
 RENDERABLE = [u'Markdown', u'Text']
 
@@ -72,6 +73,7 @@ def gist_contents(id):
         abort(404)
     resp = make_response(content, 200)
     resp.headers['Content-Type'] = 'application/json'
+    resp.headers['Cache-Control'] = CACHE_CONTROL
     resp.headers['X-Cache-Hit'] = cache_hit
     resp.headers['X-Expire-TTL-Seconds'] = cache.ttl(id)
     return resp
