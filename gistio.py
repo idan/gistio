@@ -27,7 +27,7 @@ else:
 
 CACHE_EXPIRATION = 60  # seconds
 
-RENDERABLE = [u'Markdown', u'Text']
+RENDERABLE = [u'Markdown', u'Text', u'Literate CoffeeScript']
 
 ALLOWED_TAGS = [
     "a", "abbr", "acronym", "b", "blockquote", "code", "em", "i", "li", "ol", "strong",
