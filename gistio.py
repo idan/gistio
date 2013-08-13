@@ -7,7 +7,7 @@ from markdown2 import markdown
 import requests
 import bleach
 
-from flask import Flask, render_template, make_response, abort
+from flask import Flask, render_template, make_response, abort, request
 app = Flask(__name__)
 
 HEROKU = 'HEROKU' in os.environ
@@ -43,6 +43,10 @@ ALLOWED_ATTRIBUTES = {
     "img": ["src"],
 }
 
+@app.route('/oauth')
+def oauth():
+    print("Method: {}".format(request.method))
+    print("Args: {}".format(request.args))
 
 @app.route('/')
 def homepage():
