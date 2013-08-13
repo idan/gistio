@@ -5,8 +5,21 @@ var Gisted = (function($, undefined) {
                 var description = data['description'];
                 if (description) {
                     $("#description").text(description);
+                    $("title").html(description + ' &middot; ' + $("title").html());
                 } else {
                     $("#description").text('');
+                }
+                var user = data['user'];
+                if (user) {
+                    $("<a/>", {
+                        id: 'gistuser-url',
+                        href: 'https://github.com/' + user['login'],
+                        target: '_blank'
+                    }).appendTo("#gistuser");
+                    $("<img/>", {
+                        src: user['avatar_url'],
+                        title: user['login']
+                    }).appendTo("#gistuser-url");
                 }
                 var files = data['files'];
                 var keys = Object.keys(files);

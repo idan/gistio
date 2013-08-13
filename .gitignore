@@ -4,3 +4,4 @@
 *.ipynb
 *.sublime-project
 *.sublime-workspace
+venv
