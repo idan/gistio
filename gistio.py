@@ -45,8 +45,9 @@ ALLOWED_ATTRIBUTES = {
 
 @app.route('/oauth')
 def oauth():
-    print("Method: {}".format(request.method))
-    print("Args: {}".format(request.args))
+    app.logger.warning("Method: {}".format(request.method))
+    app.logger.warning("Args: {}".format(request.args))
+    return(u"oauth")
 
 @app.route('/')
 def homepage():
