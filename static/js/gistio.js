@@ -19,6 +19,33 @@ var Gisted = (function($, undefined) {
                             .attr('class', 'file')
                             .attr('data-filename', file['filename']);
                         filediv.html("<h1>" + file['filename'] + "</h1>" + file['rendered']);
+
+                        // Due to the way Injector.js works (document.write is being overwritten)
+                        // the executions have to be serialized and can not happen in parallel.
+                        // Therefore the array of gists has to be traversed manually by using
+                        // the Inspector.oncomplete event.
+                        var codes = filediv.find('gist');
+                        (function embed(idx) {
+                            var inj = new Injector();
+                            inj.oncomplete = function() {
+                                if(idx < codes.length) {
+                                    embed(idx+1);
+                                }
+                            };
+
+                            var elem = codes.get(idx);
+                            var filename = $(elem).text();
+                            var container = document.createElement('div');
+                            inj.setContainer(container);
+                            $(elem).replaceWith(container);
+                            // Yield to browser to force DOM update
+                            // Otherwise `load` events won't fire which Injector.js uses for
+                            // the oncomplete event.
+                            setTimeout(function() {
+                                inj.insert('<script src="https://gist.github.com/'+gist_id+'.js?file='+filename+'"></script>');
+                            }, 1);
+                        })(0);
+
                         $('#gistbody').append(filediv);
                     }
                 }
