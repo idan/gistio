@@ -12,6 +12,13 @@ app = Flask(__name__)
 
 HEROKU = 'HEROKU' in os.environ
 
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID')
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
+
+AUTH_PARAMS = {'client_id': GITHUB_CLIENT_ID,
+               'client_secret': GITHUB_CLIENT_SECRET}
+
+
 if HEROKU:
     urlparse.uses_netloc.append('redis')
     redis_url = urlparse.urlparse(os.environ['REDISTOGO_URL'])
@@ -27,7 +34,7 @@ else:
 
 CACHE_EXPIRATION = 60  # seconds
 
-RENDERABLE = [u'Markdown', u'Text']
+RENDERABLE = (u'Markdown', u'Text', None)
 
 ALLOWED_TAGS = [
     "a", "abbr", "acronym", "b", "blockquote", "code", "em", "i", "li", "ol", "strong",
@@ -77,14 +84,23 @@ def gist_contents(id):
 
 def fetch_and_render(id):
     """Fetch and render a post from the Github API"""
-    r = requests.get('https://api.github.com/gists/{}'.format(id))
+    r = requests.get('https://api.github.com/gists/{}'.format(id),
+                     params=AUTH_PARAMS)
     if r.status_code != 200:
+        app.logger.warning('Fetch {} failed: {}'.format(id, r.status_code))
         return None
     decoded = r.json.copy()
     for f in decoded['files'].values():
         if f['language'] in RENDERABLE:
-            f['rendered'] = bleach.clean(markdown(f['content']),
-                tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
+            app.logger.debug('{}: renderable!'.format(f['filename']))
+
+            req_render = requests.post('https://api.github.com/markdown/raw',
+                                       params=AUTH_PARAMS, data=f['content'],
+                                       headers={'content-type': 'text/plain'})
+            if req_render.status_code == 200:
+                f['rendered'] = req_render.text
+            else:
+                app.logger.warn('Render {} failed: {}'.format(id, req_render.status_code))
     encoded = json.dumps(decoded)
     cache.setex(id, CACHE_EXPIRATION, encoded)
     return encoded
