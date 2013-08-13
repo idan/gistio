@@ -93,9 +93,12 @@ def fetch_and_render(id):
     for f in decoded['files'].values():
         if f['language'] in RENDERABLE:
             app.logger.debug('{}: renderable!'.format(f['filename']))
-
-            req_render = requests.post('https://api.github.com/markdown/raw',
-                                       params=AUTH_PARAMS, data=f['content'],
+            payload = {
+                'text': f['content'],
+                'mode': 'gfm',
+            }
+            req_render = requests.post('https://api.github.com/markdown',
+                                       params=AUTH_PARAMS, data=json.dumps(payload),
                                        headers={'content-type': 'text/plain'})
             if req_render.status_code == 200:
                 f['rendered'] = req_render.text
