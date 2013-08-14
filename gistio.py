@@ -30,7 +30,7 @@ if HEROKU:
 else:
     cache = StrictRedis()  # local development
     PORT = 5000
-    STATIC_URL = ''
+    STATIC_URL = '/static/'
 
 CACHE_EXPIRATION = 60  # seconds
 
@@ -58,12 +58,12 @@ def oauth():
 
 @app.route('/')
 def homepage():
-    return render_template('home.html', static_url=STATIC_URL)
+    return render_template('home.html', STATIC_URL=STATIC_URL)
 
 
 @app.route('/<int:id>')
 def render_gist(id):
-    return render_template('gist.html', gist_id=id, static_url=STATIC_URL)
+    return render_template('gist.html', gist_id=id, STATIC_URL=STATIC_URL)
 
 
 @app.route('/<int:id>/content')
