@@ -1,6 +1,5 @@
 @import "defaults";
 @import "bourbon/bourbon";
-@import "pygments/tomorrow_night";
 
 
 * {
@@ -181,3 +180,5 @@ article {
     100% { opacity: 1; }
 }
 
+
+@import "pygments/tomorrow_night";
