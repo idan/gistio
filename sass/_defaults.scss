@@ -2,11 +2,11 @@
 $default-transition-duration: 0.25s;
 
 @mixin copy {
-    font-family: "Alegreya", Palatino, Georgia, serif;
+    font-family: 'Sentinel SSm A', 'Sentinel SSm B', Georgia, serif;
 }
 
 @mixin titling {
-    font-family: "Alegreya SC", Palatino, Georgia, serif;
+    font-family: 'Tungsten A', 'Tungsten B';
 }
 
-$red: #fc263a
+$link: #4da7ca;

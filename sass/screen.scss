@@ -1,11 +1,11 @@
 @import "defaults";
-@import "normalize";
+@import "bourbon/bourbon";
 
-@import "compass/utilities/general/clearfix";
-@import "compass/css3/transition";
-@import "compass/css3/box-shadow";
 
-* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+* {
+    @include box-sizing(border-box);
+}
+
 
 html {
     background-color: #fff;
@@ -21,18 +21,19 @@ body {
     margin: 0;
     @include copy;
     color: #444;
+    font-weight: 300;
 }
 
 
 
 a {
-    color: $red;
+    color: $link;
     @include transition;
     &:hover, &:visited:hover {
-        color: darken($red, 20%);
+        color: darken($link, 20%);
     }
     &:visited {
-        color: lighten($red, 15%);
+        color: lighten($link, 15%);
     }
 }
 
@@ -57,8 +58,10 @@ a {
     }
     #description {
         @include titling;
-        font-weight: normal;
-        font-size: 2em;
+        font-weight: 500;
+        font-size: 5em;
+        text-transform: uppercase;
+        line-height: 1em;
         &.loading {
             -webkit-animation: throb 1s infinite alternate linear;
             -moz-animation:    throb 1s infinite alternate linear;
@@ -96,7 +99,7 @@ article {
         display: none;
     }
     h1, h2, h3, h4, h5 {
-        font-weight: normal;
+        font-weight: 300;
         margin-top: 2em;
         color: black;
     }
@@ -105,16 +108,16 @@ article {
         font-size: 1.5em;
     }
     h3 {
-        @include titling;
-        font-weight: normal;
-        text-transform: lowercase;
+        font-weight: 400;
+        font-size: 0.925em;
+        margin-top: 3em;
+        text-transform: uppercase;
     }
-    h4 {
-        font-size: 1em;
+    h4, h5, h6 {
+        font-weight: 400;
+        font-size: 0.925em;
+        margin-top: 3em;
         font-style: italic;
-    }
-    h5 {
-        font-style: normal;
     }
     ul, ol {
         list-style-position: outside;
@@ -123,10 +126,16 @@ article {
     blockquote {
         margin: 0;
         padding-left: 1em;
-        border-left: 1px solid #aaa;
+        border-left: 1px solid #ddd;
+    }
+    ul, ol, p, blockquote {
+        line-height: 1.5em;
     }
     img, object, video, audio, figure, iframe {
         max-width: 100%;
+    }
+    pre, code, samp {
+        font-family: 'Source Code Pro', monospace;
     }
 }
 
@@ -144,7 +153,7 @@ article {
         padding: 1.618em;
         margin: 0 auto;
         max-width: 45rem;
-        font-size: 1.25em;
+        font-size: 1.125em;
     }
 }
 
