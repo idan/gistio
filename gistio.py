@@ -89,21 +89,29 @@ def fetch_and_render(id):
     if r.status_code != 200:
         app.logger.warning('Fetch {} failed: {}'.format(id, r.status_code))
         return None
-    decoded = r.json.copy()
+
+    try:
+        decoded = r.json().copy()
+    except ValueError:
+        app.logger.error('Fetch {} failed: unable to decode JSON response'.format(id))
+        return None
+
     for f in decoded['files'].values():
         if f['language'] in RENDERABLE:
             app.logger.debug('{}: renderable!'.format(f['filename']))
             payload = {
-                'text': f['content'],
                 'mode': 'gfm',
+                'text': f['content'],
             }
+
             req_render = requests.post('https://api.github.com/markdown',
-                                       params=AUTH_PARAMS, data=json.dumps(payload),
-                                       headers={'content-type': 'text/plain'})
+                                       params=AUTH_PARAMS,
+                                       data=unicode(json.dumps(payload)))
             if req_render.status_code == 200:
                 f['rendered'] = req_render.text
             else:
-                app.logger.warn('Render {} failed: {}'.format(id, req_render.status_code))
+                app.logger.warn('Render {} file {} failed: {}'.format(id, f['filename'], req_render.status_code))
+                continue
     encoded = json.dumps(decoded)
     cache.setex(id, CACHE_EXPIRATION, encoded)
     return encoded
