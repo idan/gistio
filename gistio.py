@@ -2,10 +2,13 @@ import os
 import json
 import urlparse
 
+import rethinkdb as r
+from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 from redis import StrictRedis
 import requests
+import iso8601
 
-from flask import Flask, render_template, make_response, abort, request
+from flask import Flask, g, render_template, make_response, abort, request
 app = Flask(__name__)
 
 HEROKU = 'HEROKU' in os.environ
@@ -16,6 +19,18 @@ GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
 AUTH_PARAMS = {'client_id': GITHUB_CLIENT_ID,
                'client_secret': GITHUB_CLIENT_SECRET}
 
+if 'RETHINKDB_URL' in os.environ:
+    urlparse.uses_netloc.append('rethinkdb')
+    rethink_url = urlparse.urlparse(os.environ['RETHINKDB_URL'])
+    RETHINK_CONNARGS = {}
+    rethink_argmap = {'hostname': 'host',
+                      'port': 'port',
+                      'username': 'db',
+                      'password': 'auth_key'}
+    for k,v in rethink_argmap.items():
+        p = getattr(rethink_url, k, None)
+        if p is not None:
+            RETHINK_CONNARGS[v] = p
 
 if HEROKU:
     urlparse.uses_netloc.append('redis')
@@ -23,6 +38,7 @@ if HEROKU:
     cache = StrictRedis(host=redis_url.hostname,
                         port=redis_url.port,
                         password=redis_url.password)
+
     PORT = int(os.environ.get('PORT', 5000))
     STATIC_URL = '//static.gist.io/'
 else:
@@ -33,6 +49,22 @@ else:
 CACHE_EXPIRATION = 60  # seconds
 
 RENDERABLE = (u'Markdown', u'Text', u'Literate CoffeeScript', None)
+
+
+@app.before_request
+def before_request():
+    try:
+
+        g.rethink = r.connect(**RETHINK_CONNARGS)
+    except RqlDriverError:
+        abort(503, "No database connection could be established.")
+
+@app.teardown_request
+def teardown_request(exception):
+    try:
+        g.rethink.close()
+    except AttributeError:
+        pass
 
 
 @app.route('/oauth')
@@ -69,35 +101,56 @@ def gist_contents(id):
 
 def fetch_and_render(id):
     """Fetch and render a post from the Github API"""
-    r = requests.get('https://api.github.com/gists/{}'.format(id),
+    req_gist = requests.get('https://api.github.com/gists/{}'.format(id),
                      params=AUTH_PARAMS)
-    if r.status_code != 200:
+    if req_gist.status_code != 200:
         app.logger.warning('Fetch {} failed: {}'.format(id, r.status_code))
         return None
 
     try:
-        decoded = r.json().copy()
+        raw = req_gist.json()
     except ValueError:
         app.logger.error('Fetch {} failed: unable to decode JSON response'.format(id))
         return None
 
-    for f in decoded['files'].values():
-        if f['language'] in RENDERABLE:
-            app.logger.debug('{}: renderable!'.format(f['filename']))
+    user = {}
+    for prop in ['id', 'login', 'avatar_url', 'html_url', 'type']:
+        user[prop] = raw['user'][prop]
+    user['fetched_at'] = r.now()
+    r.table('users').insert(user, upsert=True).run(g.rethink)
+
+    gist = {
+        'id': raw['id'],
+        'html_url': raw['html_url'],
+        'public': raw['public'],
+        'description': raw['description'],
+        'created_at': iso8601.parse_date(raw['created_at']),
+        'updated_at': iso8601.parse_date(raw['updated_at']),
+        'author_id': user['id'],
+        'author_login': user['login'],
+        'files': [],
+    }
+
+
+    for gistfile in raw['files'].values():
+        if gistfile['language'] in RENDERABLE:
             payload = {
                 'mode': 'gfm',
-                'text': f['content'],
+                'text': gistfile['content'],
             }
-
             req_render = requests.post('https://api.github.com/markdown',
                                        params=AUTH_PARAMS,
                                        data=unicode(json.dumps(payload)))
-            if req_render.status_code == 200:
-                f['rendered'] = req_render.text
-            else:
-                app.logger.warn('Render {} file {} failed: {}'.format(id, f['filename'], req_render.status_code))
+            if req_render.status_code != 200:
+                app.logger.warn('Render {} file {} failed: {}'.format(id, gistfile['filename'], req_render.status_code))
                 continue
-    encoded = json.dumps(decoded)
+            else:
+                gistfile['rendered'] = req_render.text
+                gist['files'].append(gistfile)
+
+
+    r.table('gists').insert(gist, upsert=True).run(g.rethink)
+    encoded = json.dumps(raw)
     cache.setex(id, CACHE_EXPIRATION, encoded)
     return encoded
 
