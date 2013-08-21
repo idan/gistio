@@ -91,6 +91,8 @@ article h4, article h5, article h6 {
 article ul, article ol {
   list-style-position: outside;
   padding: 0; }
+  article ul li ul, article ul li ol, article ol li ul, article ol li ol {
+    margin-left: 1.5em; }
 article blockquote {
   margin: 0;
   padding-left: 1em;
