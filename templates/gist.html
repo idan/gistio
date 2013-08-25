@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}gist.io &middot; #{{ gist_id }}{% endblock %}
+{% block title %}gist.io &middot; #{{ gist.id }}{% endblock %}
 
 {% block content %}
-    <!-- <h1>Loading Gist #{{ gist_id }}…</h1> -->
     <section class="content">
         <header>
-            <h1 id="gistid"><a href="https://gist.github.com/{{ gist_id }}">gist #{{ gist_id }}</a></h1>
-            <h2 id="description" class="loading instapaper_title entry-title">Loading…</h2>
+            <h1 id="gistid"><a href="{{ gist.html_url }}">gist #{{ gist.id }}</a> by <a href="{{ user.html_url }}">{{ user.login }}</a></h1>
+            <h2 id="description" class="instapaper_title entry-title">{{ gist.description }}</h2>
         </header>
-        <div id="gistbody" class="instapaper_body entry-content"></div>
+        <div id="gistbody" class="instapaper_body entry-content">
+            {% for file in gist.files %}
+                <article class="file" data-filename="{{ file.filename }}">{{ file.rendered|safe }}</article>
+            {% endfor %}
+        </div>
         <footer>
             <p><a href="/">gist.io</a> &middot; writing for hackers &middot; zero setup &middot; publish in seconds</p>
         </footer>
@@ -18,13 +21,6 @@
 
 {% block js %}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="{{ STATIC_URL }}js/gistio.js"></script>
-<script>
-    $(function() {
-        Gisted.gist({{gist_id}});
-    });
-</script>
 {% endblock js %}
 
 {% block extra_head %}

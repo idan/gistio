@@ -50,6 +50,7 @@ CACHE_EXPIRATION = 60  # seconds
 
 RENDERABLE = (u'Markdown', u'Text', u'Literate CoffeeScript', None)
 
+class GistFetchError(Exception): pass
 
 @app.before_request
 def before_request():
@@ -80,7 +81,18 @@ def homepage():
 
 @app.route('/<int:id>')
 def render_gist(id):
-    return render_template('gist.html', gist_id=id, STATIC_URL=STATIC_URL)
+    gist = r.table('gists').get(unicode(id)).run(g.rethink)
+    if gist is None:
+        try:
+            user, gist = fetch_and_render(id)
+        except GistFetchError:
+            abort(404);
+    else:
+        user = r.table('users').get(gist['author_id']).run(g.rethink)
+
+    ctx = {'user': user, 'gist': gist, 'STATIC_URL': STATIC_URL}
+    app.logger.debug(ctx)
+    return render_template('gist.html', **ctx)
 
 
 @app.route('/<int:id>/content')
@@ -105,13 +117,13 @@ def fetch_and_render(id):
                      params=AUTH_PARAMS)
     if req_gist.status_code != 200:
         app.logger.warning('Fetch {} failed: {}'.format(id, r.status_code))
-        return None
+        raise GistFetchError()
 
     try:
         raw = req_gist.json()
     except ValueError:
         app.logger.error('Fetch {} failed: unable to decode JSON response'.format(id))
-        return None
+        raise GistFetchError()
 
     user = {}
     for prop in ['id', 'login', 'avatar_url', 'html_url', 'type']:
@@ -150,9 +162,7 @@ def fetch_and_render(id):
 
 
     r.table('gists').insert(gist, upsert=True).run(g.rethink)
-    encoded = json.dumps(raw)
-    cache.setex(id, CACHE_EXPIRATION, encoded)
-    return encoded
+    return user, gist
 
 
 if __name__ == '__main__':
