@@ -8,6 +8,7 @@ from redis import StrictRedis
 import requests
 import iso8601
 import smartypants
+from docutils.core import publish_parts as render_rst
 
 from flask import Flask, g, render_template, make_response, abort, request
 app = Flask(__name__)
@@ -49,7 +50,16 @@ else:
 
 CACHE_EXPIRATION = 60  # seconds
 
-RENDERABLE = (u'Markdown', u'Text', u'Literate CoffeeScript', None)
+FORMAT_RST = 'rst'
+FORMAT_MD = 'md'
+
+RENDERABLE = {
+                u'Text': FORMAT_MD,
+                u'Markdown': FORMAT_MD,
+                u'Literate CoffeeScript': FORMAT_MD,
+                u'reStructuredText': FORMAT_RST,
+                None: FORMAT_MD,
+             }
 
 class GistFetchError(Exception): pass
 
@@ -146,7 +156,14 @@ def fetch_and_render(id):
 
 
     for gistfile in raw['files'].values():
-        if gistfile['language'] in RENDERABLE:
+        format = RENDERABLE.get(gistfile['language'], None)
+
+        if format is None:
+            continue
+
+        output = None
+
+        if format is FORMAT_MD:
             payload = {
                 'mode': 'gfm',
                 'text': gistfile['content'],
@@ -158,7 +175,14 @@ def fetch_and_render(id):
                 app.logger.warn('Render {} file {} failed: {}'.format(id, gistfile['filename'], req_render.status_code))
                 continue
             else:
-                gistfile['rendered'] = smartypants.smartypants(req_render.text)
+                output = smartypants.smartypants(req_render.text)
+
+        if format is FORMAT_RST:
+            rendered = render_rst(gistfile['content'], writer_name='html')['fragment']
+            output = smartypants.smartypants(rendered)
+
+        if output is not None:
+                gistfile['rendered'] = output
                 gist['files'].append(gistfile)
 
 
