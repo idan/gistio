@@ -4,3 +4,4 @@ iso8601==0.1.4
 redis==2.7.6
 requests==1.2.3
 rethinkdb==1.8.0-0
+smartypants==1.8.1

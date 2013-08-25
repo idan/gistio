@@ -7,6 +7,7 @@ from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 from redis import StrictRedis
 import requests
 import iso8601
+import smartypants
 
 from flask import Flask, g, render_template, make_response, abort, request
 app = Flask(__name__)
@@ -157,7 +158,7 @@ def fetch_and_render(id):
                 app.logger.warn('Render {} file {} failed: {}'.format(id, gistfile['filename'], req_render.status_code))
                 continue
             else:
-                gistfile['rendered'] = req_render.text
+                gistfile['rendered'] = smartypants.smartypants(req_render.text)
                 gist['files'].append(gistfile)
 
 
