@@ -137,6 +137,8 @@ article {
     }
     img, object, video, audio, figure, iframe {
         max-width: 100%;
+        height: auto;
+        width: auto;
     }
     pre, code, samp {
         font-family: 'Source Code Pro', monospace;

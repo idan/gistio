@@ -100,7 +100,9 @@ article blockquote {
 article ul, article ol, article p, article blockquote {
   line-height: 1.55em; }
 article img, article object, article video, article audio, article figure, article iframe {
-  max-width: 100%; }
+  max-width: 100%;
+  height: auto;
+  width: auto; }
 article pre, article code, article samp {
   font-family: 'Source Code Pro', monospace; }
 article .highlight {
