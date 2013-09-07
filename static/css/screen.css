@@ -98,7 +98,7 @@ article blockquote {
   padding-left: 1em;
   border-left: 1px solid #ddd; }
 article ul, article ol, article p, article blockquote {
-  line-height: 1.6em; }
+  line-height: 1.55em; }
 article img, article object, article video, article audio, article figure, article iframe {
   max-width: 100%; }
 article pre, article code, article samp {
