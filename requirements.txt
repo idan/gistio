@@ -1,8 +1,8 @@
+Django==1.5.2
+Unipath==1.0
+dj-static==0.0.5
 docutils==0.11
-Flask==0.10.1
-hiredis==0.1.1
 iso8601==0.1.4
-redis==2.7.6
 requests==1.2.3
-rethinkdb==1.8.0-0
+rethinkdb==1.8.0-1
 smartypants==1.8.1
