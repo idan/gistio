@@ -26,7 +26,7 @@ ADMINS = (
 DATABASES = {}
 
 
-RETHINKDB_URL = get_env_variable('RETHINKDB_URL')
+RETHINKDB_URL = urlparse.urlparse(get_env_variable('RETHINKDB_URL'))
 urlparse.uses_netloc.append('rethinkdb')
 RETHINK_CONNARGS = {}
 rethink_argmap = {'hostname': 'host',
