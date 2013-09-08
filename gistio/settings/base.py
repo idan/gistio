@@ -132,3 +132,9 @@ LOGGING = {
         },
     }
 }
+
+
+GITHUB_CLIENT_ID = get_env_variable('GITHUB_CLIENT_ID')
+GITHUB_CLIENT_SECRET = get_env_variable('GITHUB_CLIENT_SECRET')
+GITHUB_AUTH_PARAMS = {'client_id': GITHUB_CLIENT_ID,
+               'client_secret': GITHUB_CLIENT_SECRET}
