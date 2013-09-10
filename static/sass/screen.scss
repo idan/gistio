@@ -2,6 +2,12 @@
 @import "bourbon/bourbon";
 
 
+@mixin vector-bg-with-fallback($name) {
+  background-image: url('../img/#{$name}.png');
+  background-image: none, url('../img/#{$name}.svg');
+}
+
+
 * {
     @include box-sizing(border-box);
 }
