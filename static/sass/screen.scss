@@ -157,7 +157,7 @@ article {
 }
 
 
-@media all and (min-width: 33.236em) {
+@media screen and (min-width: 33.236em) {
     // linear
     @media screen and (min-width: 30em) and (max-width: 63.236em) {
         .content {
@@ -194,3 +194,64 @@ article {
 
 
 @import "pygments/tomorrow_night";
+
+.homepage {
+    padding: 0;
+    margin: 0;
+}
+
+.jumbo {
+    position: fixed;
+    width: 50%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #F6F3E8;
+    @include vector-bg-with-fallback("logo");
+    background-repeat: no-repeat;
+    background-size: 90%;
+    background-position: center center;
+
+    @media screen and (max-width: 63.236em) {
+        display: none;
+    }
+}
+
+.homecontent {
+    background: white;
+    margin: 0;
+    padding: 4em 2em 2em 2em;
+
+    @media screen and (min-width: 63.236em) {
+        width: 50%;
+        padding-top: 10vw;
+        margin-left: 50%;
+    }
+
+    h1 {
+        @include copy;
+        font-weight: 300;
+        font-size: 6em;
+        .light {
+            color: #bbb;
+        }
+        margin: 0;
+        @media screen and (max-width: 63.236em) {
+            @include vector-bg-with-fallback("logo");
+            background-repeat: no-repeat;
+            background-size: 1em;
+            background-position: left center;
+            padding-left: 0.9em;
+        }
+    }
+
+    p {
+        @include copy;
+        font-weight: 300;
+        font-size: 1.25em;
+        &.lede {
+            font-size: 1.5em;
+            font-style: italic;
+        }
+    }
+}
