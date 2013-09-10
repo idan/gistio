@@ -1,3 +1,3 @@
-web: python manage.py runserver
+web: python manage.py runserver 0.0.0.0:8000
 sass: sass --watch static/sass:static/css
 rethinkdb: rethinkdb
