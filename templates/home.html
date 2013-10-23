@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block extra_head %}
+    <meta name="format-detection" content="telephone=no">
+{% endblock extra_head %}
 
 {% block bodyclass %}homepage{% endblock bodyclass %}
 
@@ -6,8 +12,20 @@
     <div class="jumbo"></div>
     <div class="homecontent">
         <h1>gist<span class="light">.io</span></h1>
-        <p class="lede">Write a GitHub gist, publish it beautifully.</p>
-        <p>Gist.io takes any gist and makes it presentable. Publish a quick, anonymous note or a long essay—your content stays on GitHub, and gist.io makes it a pleasure to read.</p>
+        <p class="lede">Write a GitHub gist, present it with style.</p>
+        <p>Publish a quick, anonymous note or a long essay—your content stays on GitHub, and gist.io makes it a pleasure to read.</p>
+
+        <p>Here, check out an <a href="/3135754">example post.</a></p>
+
+        <p>To make life easier, <a class="extension_trigger" href="" onclick="chrome.webstore.install()">install the Chrome extension</a>. It lets you toggle quickly between GitHub and gist.io for viewing gists:</p>
+        <p class="chrome_screenshot">
+            <a class="extension_trigger" href="" onclick="chrome.webstore.install()">
+            <img src="{% static 'img/chrome_extension_screenshot.png' %}" alt="Tightly-cropped screenshot of the gist.io chrome extension in chrome.">
+            <img class="screenshot_mask" src="{% static 'img/chrome_extension_screenshot_mask.png' %}">
+            </a>
+        </p>
+        <p><button onclick="chrome.webstore.install()" id="install-button">Add to Chrome</button></p>
+
 
 
     </div>
@@ -52,6 +70,9 @@
 
 {% endblock %}
 
-{% block extra_head %}
-    <meta name="format-detection" content="telephone=no">
-{% endblock extra_head %}
+
+{% block js %}
+<script>
+    
+</script>
+{% endblock js %}

@@ -198,9 +198,11 @@ article {
 .homepage {
     padding: 0;
     margin: 0;
+    width: 100%;
 }
 
 .jumbo {
+    display: none;
     position: fixed;
     width: 50%;
     top: 0;
@@ -212,8 +214,8 @@ article {
     background-size: 90%;
     background-position: center center;
 
-    @media screen and (max-width: 63.236em) {
-        display: none;
+    @media screen and (min-width: 63.236em) {
+        display: block;
     }
 }
 
@@ -221,12 +223,21 @@ article {
     background: white;
     margin: 0;
     padding: 4em 2em 2em 2em;
+    border-left: 2em solid #F6F3E8;
 
     @media screen and (min-width: 63.236em) {
         width: 50%;
         padding-top: 10vw;
         margin-left: 50%;
+        border-left: none;
     }
+
+    @media screen and (max-width: 33.236em) {
+        border-left-width: 1em;
+        padding-top: 3em;
+    }
+
+
 
     h1 {
         @include copy;
@@ -236,12 +247,18 @@ article {
             color: #bbb;
         }
         margin: 0;
-        @media screen and (max-width: 63.236em) {
+        @media screen and (max-width: 63.235em) {
             @include vector-bg-with-fallback("logo");
             background-repeat: no-repeat;
             background-size: 1em;
             background-position: left center;
             padding-left: 0.9em;
+        }
+        @media screen and (max-width: 33.236em) {
+            font-size: 4em;
+            background-size: 0.8em;
+            padding-left: 0.8em;
+            background-position: left 80%;
         }
     }
 
@@ -249,9 +266,39 @@ article {
         @include copy;
         font-weight: 300;
         font-size: 1.25em;
+        line-height: 1.4em;
         &.lede {
             font-size: 1.5em;
             font-style: italic;
+        }
+        max-width: 33em;
+
+        @media screen and (max-width: 33.236em) {
+            font-size: 1em;
+            &.lede {
+                font-size: 1.25em;
+            }
+        }
+    }
+
+    .chrome_screenshot {
+        position: relative;
+        max-width: 407px;
+        img {
+            display: block;
+            max-width: 100%;
+        }
+        .screenshot_mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            @include transition(opacity 0.2s ease);
+        }
+        &:hover {
+            .screenshot_mask {
+                opacity: 1;
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
     <section class="content">
         <header>
             <h1 id="gistid"><a href="{{ gist.html_url }}">gist #{{ gist.id }}</a> by <a href="{{ user.html_url }}">{{ user.login }}</a></h1>
+            <p><a href="{{ user.html_url }}"><img src="{{ user.avatar_url }}" alt="{{ user.login }}’s avatar"></a></p>
             <h2 id="description" class="instapaper_title entry-title">{{ gist.description }}</h2>
         </header>
         <div id="gistbody" class="instapaper_body entry-content">

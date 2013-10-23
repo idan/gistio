@@ -411,9 +411,11 @@ article .highlight {
 /* Literal.Number.Integer.Long */
 .homepage {
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  width: 100%; }
 
 .jumbo {
+  display: none;
   position: fixed;
   width: 50%;
   top: 0;
@@ -425,19 +427,25 @@ article .highlight {
   background-repeat: no-repeat;
   background-size: 90%;
   background-position: center center; }
-  @media screen and (max-width: 63.236em) {
+  @media screen and (min-width: 63.236em) {
     .jumbo {
-      display: none; } }
+      display: block; } }
 
 .homecontent {
   background: white;
   margin: 0;
-  padding: 4em 2em 2em 2em; }
+  padding: 4em 2em 2em 2em;
+  border-left: 2em solid #F6F3E8; }
   @media screen and (min-width: 63.236em) {
     .homecontent {
       width: 50%;
       padding-top: 10vw;
-      margin-left: 50%; } }
+      margin-left: 50%;
+      border-left: none; } }
+  @media screen and (max-width: 33.236em) {
+    .homecontent {
+      border-left-width: 1em;
+      padding-top: 3em; } }
   .homecontent h1 {
     font-family: 'Sentinel SSm A', 'Sentinel SSm B', Georgia, serif;
     font-weight: 300;
@@ -445,7 +453,7 @@ article .highlight {
     margin: 0; }
     .homecontent h1 .light {
       color: #bbb; }
-    @media screen and (max-width: 63.236em) {
+    @media screen and (max-width: 63.235em) {
       .homecontent h1 {
         background-image: url("../img/logo.png");
         background-image: none, url("../img/logo.svg");
@@ -453,10 +461,39 @@ article .highlight {
         background-size: 1em;
         background-position: left center;
         padding-left: 0.9em; } }
+    @media screen and (max-width: 33.236em) {
+      .homecontent h1 {
+        font-size: 4em;
+        background-size: 0.8em;
+        padding-left: 0.8em;
+        background-position: left 80%; } }
   .homecontent p {
     font-family: 'Sentinel SSm A', 'Sentinel SSm B', Georgia, serif;
     font-weight: 300;
-    font-size: 1.25em; }
+    font-size: 1.25em;
+    line-height: 1.4em;
+    max-width: 33em; }
     .homecontent p.lede {
       font-size: 1.5em;
       font-style: italic; }
+    @media screen and (max-width: 33.236em) {
+      .homecontent p {
+        font-size: 1em; }
+        .homecontent p.lede {
+          font-size: 1.25em; } }
+  .homecontent .chrome_screenshot {
+    position: relative;
+    max-width: 407px; }
+    .homecontent .chrome_screenshot img {
+      display: block;
+      max-width: 100%; }
+    .homecontent .chrome_screenshot .screenshot_mask {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      -webkit-transition: opacity 0.2s ease;
+      -moz-transition: opacity 0.2s ease;
+      transition: opacity 0.2s ease; }
+    .homecontent .chrome_screenshot:hover .screenshot_mask {
+      opacity: 1; }
