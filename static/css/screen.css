@@ -104,7 +104,9 @@ article img, article object, article video, article audio, article figure, artic
   height: auto;
   width: auto; }
 article pre, article code, article samp {
-  font-family: 'Source Code Pro', monospace; }
+  font-family: 'Source Code Pro', monospace;
+  word-wrap: break-word;
+  overflow-wrap: break-word; }
 article .highlight {
   padding: 0.1em 0.5em;
   background: #1d1f21;
