@@ -1,0 +1,11 @@
+body {
+  font-family: 'Merriweather', serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Lato', sans-serif;
+}
+
+code {
+  font-family: 'Anonymous Pro', monospace;
+}
