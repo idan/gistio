@@ -4,7 +4,7 @@
   src: url('./ElenaWebBasicLight/ElenaWebBasicLight.eot?#iefix') format('embedded-opentype'),
   url('./ElenaWebBasicLight/ElenaWebBasicLight.woff2') format('woff2'),
   url('./ElenaWebBasicLight/ElenaWebBasicLight.woff') format('woff');
-  font-weight: 300;
+  font-weight: 400;
   font-style: normal;
 }
 
@@ -14,26 +14,6 @@
   src: url('./ElenaWebBasicLightItalic/ElenaWebBasicLightItalic.eot?#iefix') format('embedded-opentype'),
   url('./ElenaWebBasicLightItalic/ElenaWebBasicLightItalic.woff2') format('woff2'),
   url('./ElenaWebBasicLightItalic/ElenaWebBasicLightItalic.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'ElenaWebBasic';
-  src: url('./ElenaWebBasicRegular/ElenaWebBasicRegular.eot');
-  src: url('./ElenaWebBasicRegular/ElenaWebBasicRegular.eot?#iefix') format('embedded-opentype'),
-  url('./ElenaWebBasicRegular/ElenaWebBasicRegular.woff2') format('woff2'),
-  url('./ElenaWebBasicRegular/ElenaWebBasicRegular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'ElenaWebBasic';
-  src: url('./ElenaWebBasicRegularItalic/ElenaWebBasicRegularItalic.eot');
-  src: url('./ElenaWebBasicRegularItalic/ElenaWebBasicRegularItalic.eot?#iefix') format('embedded-opentype'),
-  url('./ElenaWebBasicRegularItalic/ElenaWebBasicRegularItalic.woff2') format('woff2'),
-  url('./ElenaWebBasicRegularItalic/ElenaWebBasicRegularItalic.woff') format('woff');
   font-weight: 400;
   font-style: italic;
 }
@@ -44,7 +24,7 @@
   src: url('./ElenaWebBasicMedium/ElenaWebBasicMedium.eot?#iefix') format('embedded-opentype'),
   url('./ElenaWebBasicMedium/ElenaWebBasicMedium.woff2') format('woff2'),
   url('./ElenaWebBasicMedium/ElenaWebBasicMedium.woff') format('woff');
-  font-weight: 500;
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -54,26 +34,6 @@
   src: url('./ElenaWebBasicMediumItalic/ElenaWebBasicMediumItalic.eot?#iefix') format('embedded-opentype'),
   url('./ElenaWebBasicMediumItalic/ElenaWebBasicMediumItalic.woff2') format('woff2'),
   url('./ElenaWebBasicMediumItalic/ElenaWebBasicMediumItalic.woff') format('woff');
-  font-weight: 500;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'ElenaWebBasic';
-  src: url('./ElenaWebBasicBold/ElenaWebBasicBold.eot');
-  src: url('./ElenaWebBasicBold/ElenaWebBasicBold.eot?#iefix') format('embedded-opentype'),
-  url('./ElenaWebBasicBold/ElenaWebBasicBold.woff2') format('woff2'),
-  url('./ElenaWebBasicBold/ElenaWebBasicBold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'ElenaWebBasic';
-  src: url('./ElenaWebBasicBoldItalic/ElenaWebBasicBoldItalic.eot');
-  src: url('./ElenaWebBasicBoldItalic/ElenaWebBasicBoldItalic.eot?#iefix') format('embedded-opentype'),
-  url('./ElenaWebBasicBoldItalic/ElenaWebBasicBoldItalic.woff2') format('woff2'),
-  url('./ElenaWebBasicBoldItalic/ElenaWebBasicBoldItalic.woff') format('woff');
   font-weight: 700;
   font-style: italic;
 }
