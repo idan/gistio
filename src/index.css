@@ -4,13 +4,24 @@ body {
 
 h1, h2, h3 {
   font-family: 'Lato', sans-serif;
+  font-variant-ligatures: no-common-ligatures;
+  -moz-font-feature-settings: "liga" 0, "clig" 0;
+  -webkit-font-feature-settings: "liga" 0, "clig" 0;
+  font-feature-settings: "liga" 0, "clig" 0;
 }
 
 code {
-  font-family: 'Source Code Pro', 'Anonymous Pro', monospace;
+  font-family: 'Source Code Pro', monospace;
   font-size: 1.25rem;
 }
 
 .content p, .content ul, .content ol {
-  line-height: 1.5;
+  line-height: 1.45;
+}
+
+.noligs {
+  font-variant-ligatures: no-common-ligatures;
+  -moz-font-feature-settings: "liga" 0, "clig" 0;
+  -webkit-font-feature-settings: "liga" 0, "clig" 0;
+  font-feature-settings: "liga" 0, "clig" 0;
 }
