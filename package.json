@@ -3,6 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "highlight.js": "^9.15.6",
+    "isomorphic-fetch": "^2.2.1",
+    "marked": "^0.6.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.0",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8",
+    "typescript": "3.4.1"
+  },
+  "devDependencies": {
     "@types/highlight.js": "^9.12.3",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "24.0.11",
@@ -10,15 +21,8 @@
     "@types/node": "11.13.0",
     "@types/react": "16.8.12",
     "@types/react-dom": "16.8.3",
-    "@types/react-router-dom": "^4.3.1",
-    "highlight.js": "^9.15.6",
-    "isomorphic-fetch": "^2.2.1",
-    "marked": "^0.6.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
-    "typescript": "3.4.1"
+    "@types/react-helmet": "^5.0.8",
+    "@types/react-router-dom": "^4.3.1"
   },
   "scripts": {
     "start": "react-scripts start",

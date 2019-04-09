@@ -1,5 +1,5 @@
 body {
-  font-family: 'Merriweather', serif;
+  font-family: 'ElenaWebBasic', 'Merriweather', serif;
 }
 
 h1, h2, h3 {
@@ -7,5 +7,10 @@ h1, h2, h3 {
 }
 
 code {
-  font-family: 'Anonymous Pro', monospace;
+  font-family: 'Source Code Pro', 'Anonymous Pro', monospace;
+  font-size: 1.25rem;
+}
+
+.content p, .content ul, .content ol {
+  line-height: 1.5;
 }
