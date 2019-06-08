@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 
 const useFetch = (url: string, defaultData?: string) => {
   const [data, updateData] = useState(defaultData)
-  
+
   useEffect(() => {
     let stale = false
     async function fetchData() {
@@ -10,9 +10,9 @@ const useFetch = (url: string, defaultData?: string) => {
         return
       }
       const resp = await fetch(url)
-      const text = await resp.text()
+      const text = await resp.json()
       if (!stale) {
-        updateData(text)    
+        updateData(text)
       }
     }
     fetchData()
@@ -20,7 +20,7 @@ const useFetch = (url: string, defaultData?: string) => {
       stale = true
     }
   }, [ url ])
-  
+
   return data
 }
 
